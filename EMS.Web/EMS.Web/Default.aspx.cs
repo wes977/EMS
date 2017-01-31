@@ -54,31 +54,38 @@ namespace EMS.Web
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            Connection conn = Connection.Create("conn");
-            if (conn != null)
-            {
-                User user = conn.FindUser(tbUserId.Text, tbPassword.Text);
 
-                if (user != null)
-                {
-                    Session["Username"] = user.Username;
-                    Session["LastName"] = user.LastName;
-                    Session["FirstName"] = user.FirstName;
-                    Session["Clearance"] = user.Clearance;
+            Session["Username"] = "west35";
+                        Session["LastName"] = "Thompson";
+                        Session["FirstName"] = "Wes";
+                       Session["Clearance"] = "1";
+            Response.Redirect("ems/", true);
+            //   // Connection conn = Connection.Create("conn");
+            //    //if (conn != null)
+            //   // {
+            //      //  User user = conn.FindUser(tbUserId.Text, tbPassword.Text);
 
-                    Response.Redirect("ems/", true);
+            //        if (user != null)
+            //        {
+            //            Session["Username"] = user.Username;
+            //            Session["LastName"] = user.LastName;
+            //            Session["FirstName"] = user.FirstName;
+            //            Session["Clearance"] = user.Clearance;
 
-                }
-                else
-                {
-                    errLabel.Text = "Invalid Username or Password";
-                }
+            //            Response.Redirect("ems/", true);
 
-            }
-            else
-            {
-                errLabel.Text = "Error retrieving user information";
-            }
+            //        }
+            //        else
+            //        {
+            //            errLabel.Text = "Invalid Username or Password";
+            //        }
+
+            //    }
+            //    else
+            //    {
+            //        errLabel.Text = "Error retrieving user information";
+            //    }
+            ////}
         }
     }
 }

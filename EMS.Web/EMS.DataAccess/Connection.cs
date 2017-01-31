@@ -823,9 +823,9 @@ namespace EMS.DataAccess
             string cmdText = "SELECT COUNT(isValid) FROM Employees WHERE isValid = 0";
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
-            connection.Open();
-            result = int.Parse(cmd.ExecuteScalar().ToString());
-            connection.Close();
+            //connection.Open();
+            //result = int.Parse(cmd.ExecuteScalar().ToString());
+            //connection.Close();
 
             return result;
         }

@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1 class="text-muted">Employee Management System</h1>
+            <h1 class="text-muted">Lily Systems</h1>
         </div>
         <br />
         <br />
