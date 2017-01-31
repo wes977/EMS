@@ -1,0 +1,164 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EMS_PSS.master.cs" Inherits="EMS.Web.EMS_PSS" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title id="pageHeader" runat="server"></title>
+    <script src="<%= ResolveUrl("~/Scripts/jquery-1.9.1.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/Scripts/bootstrap.min.js") %>"></script>
+    <link href="<%= ResolveUrl("~/Content/bootstrap.min.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/font-awesome.min.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/styles.css") %>" rel="stylesheet" />
+    <script type="text/javascript">
+        function query() {
+            var text = $("#tbSearch").val();
+            var url = "<%= ResolveUrl("~/ems/search.aspx/Search") %>";
+            var i = "<%= Session["Clearance"].ToString() %>";
+            if (text.length != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: '{q: "' + text + '", l: "' + i + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: displayResults
+                });
+            } else {
+                displayResults(null);
+            }
+        }
+
+        function displayResults(data) {
+            $("#searchresults").empty();
+            if (data) {
+                var result = JSON.parse(data.d);
+                if (result) {
+                    for (var i = 0; i < result.length; ++i) {
+                        $("#searchresults").append("<li><a href='<%= ResolveUrl("~/ems/View/ViewEmployee.aspx?id=") %>" + result[i]["ID"] + "'>" + result[i]["Name"] + "</a></li>").show();
+                    }
+                } else {
+                    $("#searchresults").append("<li><a href='<%= ResolveUrl("~/ems/search.aspx") %>'><i class='fa fa-search'></i>  No Results</a></li>").show();
+                }
+            } else {
+                $("#searchresults").append("<li><a href='<%= ResolveUrl("~/ems/search.aspx") %>'><i class='fa fa-search'></i>  No Results</a></li>").show();
+            }
+        }
+    </script>
+    <asp:ContentPlaceHolder ID="headScripts" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div style="padding-left: 225px;">
+        <!-- Top nav-bar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target="myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="<%= ResolveUrl("~/ems/") %>" class="navbar-brand">Employee Management System</a>
+            </div>
+            <div id="myNavBar" class="collapse navbar-collapse">
+                <div class="col-sm-5 col-md-5">
+                    <form class="navbar-form" role="search">
+                        <div class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="input-group">
+                                <input type="text" style="width: 300px; margin-right: 35px;" class="form-control" placeholder="Quick Search" id="tbSearch" name="q" onkeyup="query()" autocomplete="off" />
+                            </div>
+                        </div>
+                        <ul runat="server" id="searchresults" class="dropdown-menu">
+                            <li><a href="<%= ResolveUrl("~/ems/search.aspx") %>"><i class="fa fa-search"></i>No Results</a></li>
+                        </ul>
+                    </form>
+
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="fa fa-user"></span>
+                            <span runat="server" id="username"><%= Session["Username"].ToString() %></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<%= ResolveUrl("~/ems/") %>"><i class="fa fa-home"></i>Home</a></li>
+                            <li><a href="#"><i class="fa fa-user"></i>My Account</a></li>
+                            <li><a href="/"><span class="fa fa-power-off"></span>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar Nav -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bar-chart"></i>Reports <span class="pull-right"><i class="fa fa-caret-down"></i></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="<%= ResolveUrl("~/ems/Reports.aspx?type=SR") %>">Seniority Report </a></li>
+                            <li><a href="<%= ResolveUrl("~/ems/Reports.aspx?type=WHW") %>">Weekly Hours Worked </a></li>
+                            <li><a href="<%= ResolveUrl("~/ems/Reports.aspx?type=PR") %>">Payroll Report </a></li>
+                            <li><a href="<%= ResolveUrl("~/ems/Reports.aspx?type=AER") %>">Active Employemnt Report </a></li>
+                            <%if (Session["Clearance"].ToString() == "1")
+                                { %>
+                            <li><a href="<%= ResolveUrl("~/ems/Reports.aspx?type=IER") %>">Inactive Employment Report </a></li>
+                            <%} %>
+                        </ul>
+
+                    </li>
+                    <li class="dropdown">
+                        <a href="#employees" data-toggle="collapse">
+                            <i class="fa fa-database"></i>Employees <span class="pull-right"><i class="fa fa-caret-down"></i></span>
+                        </a>
+                        <ul class="collapse" id="employees">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i>Create <span class="pull-right"><i class="fa fa-caret-down"></i></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=fulltime") %>">Full Time </a></li>
+                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=parttime") %>">Part Time </a></li>
+                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=seasonal") %>">Seasonal </a></li>
+                                    <%if (Session["Clearance"].ToString() == "1")
+                                        { %>
+                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=contract") %>">Contract </a></li>
+                                    <%} %>
+                                </ul>
+                            </li>
+                            <li><a href="<%= ResolveUrl("~/ems/search.aspx") %>"><i class="fa fa-search"></i>Search </a></li>
+                            <% if (Session["Clearance"].ToString() == "1")
+                                { %>
+                            <li><a href="<%=ResolveUrl("~/ems/View/Incomplete.aspx") %>"><i class="fa fa-times"></i>Incomplete <span class="pull-right"><span id="incomplete" runat="server" class="badge"><%= NumberInvalid() %></span></span></a></li>
+                            <% } %>
+                        </ul>
+                    </li>
+                    <% 
+                        if (Session["Clearance"].ToString() == "1")
+                        {
+                    %>
+                    <li class="dropdown">
+                        <a data-toggle="collapse" href="#manage">
+                            <i class="fa fa-database"></i>Manage <span class="pull-right"><i class="caret"></i></span>
+                        </a>
+                        <ul id="manage" class="collapse">
+                            <li><a href="<%= ResolveUrl("~/ems/Manage/Users.aspx") %>"><i class="fa fa-users"></i>Users </a></li>
+                            <li><a href="<%= ResolveUrl("~/ems/Manage/Companies.aspx") %>"><i class="fa fa-building"></i>Companies </a></li>
+                        </ul>
+                    </li>
+
+                    <%}%>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="pagewrapper">
+            <div class="container-fluid">
+                <!-- inner page content -->
+                <asp:ContentPlaceHolder ID="main" runat="server">
+                </asp:ContentPlaceHolder>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
