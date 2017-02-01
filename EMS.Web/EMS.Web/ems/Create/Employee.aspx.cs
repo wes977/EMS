@@ -19,9 +19,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
-using EMS.DataAccess;
-using EMS.Models.Employees;
-using EMS.Models;
+
 
 namespace EMS.Web.ems.Create
 {
@@ -31,7 +29,7 @@ namespace EMS.Web.ems.Create
     /// </summary>
     public partial class Employee : System.Web.UI.Page
     {
-        Connection database = Connection.Create("conn");
+
 
         /// <summary>
         /// Loads up the page, checking the clearance of the
@@ -58,19 +56,11 @@ namespace EMS.Web.ems.Create
 
                     /* Get and store the list of companies */
                     lstCompanies.DataTextField = "name";
-                    lstCompanies.DataSource = database.GetCompanyNames();
                     lstCompanies.DataBind();
                 }
                 else
                 {
-                    /* Validate, insert if valid */
-                    if (ValidateEmployee() == true)
-                    {
-                        InsertEmployee();
-                        ClearFields();
-                        lblStatus.ForeColor = System.Drawing.Color.Green;
-                        lblStatus.Text = "Employee added.";
-                    }
+
                 }
             }
             catch (SqlException)
@@ -113,114 +103,8 @@ namespace EMS.Web.ems.Create
             ptDateOfTerm.Disabled = true;
         }
 
-        /// <summary>
-        /// Determines the type of employee that is being created,
-        /// than inserts them into the database using the data access
-        /// layer object.
-        /// </summary>
-        private void InsertEmployee()
-        {
-            string clearance = Session["Clearance"].ToString();
-            string employeeType = Request.Params["type"];
-
-            switch (employeeType)
-            {
-                case "fulltime":
-                    database.CreateEmployee(firstName.Text, lastName.Text, SIN.Text, txtMoney.Text,
-                        lstCompanies.SelectedValue, dateOfBirth.Value, ftHireDate.Value, ftDateOfTerm.Value,
-                        reasonForLeaving.SelectedValue, employeeType, null, null, clearance);
-                    break;
-
-                case "parttime":
-                    database.CreateEmployee(firstName.Text, lastName.Text, SIN.Text, txtMoney.Text,
-                       lstCompanies.SelectedValue, dateOfBirth.Value, ptHireDate.Value, ptDateOfTerm.Value,
-                       reasonForLeaving.SelectedValue, employeeType, null, null, clearance);
-                    break;
-
-                case "contract":
-                    database.CreateEmployee(firstName.Text, lastName.Text, SIN.Text, txtMoney.Text,
-                        lstCompanies.SelectedValue, dateOfBirth.Value, conStartDate.Value, conEndDate.Value,
-                        reasonForLeaving.SelectedValue, employeeType, null, null, clearance);
-                    break;
-
-                case "seasonal":
-                    database.CreateEmployee(firstName.Text, lastName.Text, SIN.Text, txtMoney.Text,
-                        lstCompanies.SelectedValue, dateOfBirth.Value, conStartDate.Value, conEndDate.Value,
-                        reasonForLeaving.SelectedValue, employeeType, season.Text, seasonYear.Value, clearance);
-                    break;
-            }
-        }
 
 
-        /// <summary>
-        /// Validates the employee that has been submitted on post back.
-        /// If any errors are detected, the errors will be displayed to the
-        /// user in a list box.
-        /// </summary>
-        /// <returns>bool -> True if valid, false otherwise</returns>
-        private bool ValidateEmployee()
-        {
-            bool hasErrors = false;
-
-            EmployeeValidator validator = new EmployeeValidator();
-
-            string employeeType = Request.Params["type"];
-
-            /* Validate common employee attributes */
-            validator.ValidateName(firstName.Text, Name.FirstName);
-            validator.ValidateName(lastName.Text, Name.LastName);
-
-            /* Validate money if admin only
-            */
-            if (Session["Clearance"].ToString() == "1")
-            {
-                validator.ValidatePay(txtMoney.Text);
-            }
-
-            /* Validate based on the type of employee */
-            switch (employeeType)
-            {
-                case "fulltime":
-                    validator.CheckDigit(SIN.Text);
-                    validator.ValidateBirthDate(dateOfBirth.Value, EmployeeType.FullTime);
-                    validator.ValidateDates(ftHireDate.Value, ftDateOfTerm.Value);
-                    break;
-
-                case "parttime":
-                    validator.CheckDigit(SIN.Text);
-                    validator.ValidateBirthDate(dateOfBirth.Value, EmployeeType.PartTime);
-                    validator.ValidateDates(ptHireDate.Value, ptDateOfTerm.Value);
-                    break;
-
-                case "seasonal":
-                    validator.CheckDigit(SIN.Text);
-                    validator.ValidateBirthDate(dateOfBirth.Value, EmployeeType.Seasonal);
-                    validator.ValidateSeasonYear(seasonYear.Value);
-                    break;
-
-                case "contract":
-                    validator.ValidateBusinessNumber(SIN.Text, database.GetDateOfIncorporation(lstCompanies.SelectedValue));
-                    validator.ValidateBirthDate(dateOfBirth.Value, EmployeeType.Contract);
-                    validator.ValidateDates(conStartDate.Value, conEndDate.Value);
-                    break;
-            }
-
-            hasErrors = validator.HasErrors;
-
-            if (hasErrors)
-            {
-                /* Show errors to the user */
-                errorPanel.Visible = true;
-                lstErrors.DataSource = validator.ErrorList;
-                lstErrors.DataBind();
-            }
-            else
-            {
-                lstErrors.Visible = false;
-            }
-
-            return !hasErrors;
-        }
 
 
         /// <summary>

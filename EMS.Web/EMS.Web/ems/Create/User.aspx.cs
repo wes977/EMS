@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EMS.DataAccess;
+
 
 using System.Web;
 using System.Web.UI;
@@ -90,23 +90,8 @@ namespace EMS.Web.ems.Create
         
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            bool result = false;
+  
 
-            Connection conn = Connection.Create("conn");
-
-            int secClearence = (lstUserType.SelectedIndex);
-
-            result = conn.AddUser(userBox.Text, firstNameBox.Text, lastNameBox.Text, secClearence, pswdBox.Text);
-            
-            if (result == false)
-            {
-                errLbl.Text = "User not added.";
-            }
-            else
-            {
-                errLbl.ForeColor = System.Drawing.Color.Green;
-                errLbl.Text = "User added.";
-            }
         }
 
 

@@ -71,7 +71,6 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="ems\Controls\EmployeeView.ascx" />
     <Content Include="ems\Create\Company.aspx" />
-    <Content Include="ems\Timecard.aspx" />
     <Content Include="ems\View\Incomplete.aspx" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
@@ -118,8 +117,6 @@
     <Content Include="ems\Errors\404.aspx" />
     <Content Include="ems\Manage\Companies.aspx" />
     <Content Include="ems\Manage\Users.aspx" />
-    <Content Include="ems\Reports.aspx" />
-    <Content Include="ems\search.aspx" />
     <Content Include="ems\View\ViewEmployee.aspx" />
     <Content Include="EMS_PSS.Master" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
@@ -198,27 +195,6 @@
     <Compile Include="ems\Manage\Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ems\Reports.aspx.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ems\Reports.aspx.designer.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ems\search.aspx.cs">
-      <DependentUpon>search.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ems\search.aspx.designer.cs">
-      <DependentUpon>search.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ems\Timecard.aspx.cs">
-      <DependentUpon>Timecard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ems\Timecard.aspx.designer.cs">
-      <DependentUpon>Timecard.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ems\View\Incomplete.aspx.cs">
       <DependentUpon>Incomplete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -241,16 +217,6 @@
       <DependentUpon>EMS_PSS.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EMS.DataAccess\EMS.DataAccess.csproj">
-      <Project>{1761c3d4-d197-42cd-9718-ecb27b315603}</Project>
-      <Name>EMS.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EMS.Models\EMS.Models.csproj">
-      <Project>{742c114a-eded-4e86-92a9-419bd62690d1}</Project>
-      <Name>EMS.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,5 @@
 ﻿using System;
-using EMS.DataAccess;
+
 
 namespace EMS.Web
 {
@@ -22,15 +22,7 @@ namespace EMS.Web
 
         }
 
-        /// <summary>
-        /// Numbers the invalid.
-        /// </summary>
-        /// <returns></returns>
-        protected int NumberInvalid()
-        {
-            Connection conn = Connection.Create("conn");
-            return conn.InvalidEmployeeCount();
-        }
+
 
         
 

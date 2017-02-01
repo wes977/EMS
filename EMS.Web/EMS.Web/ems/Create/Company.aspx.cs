@@ -20,7 +20,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using EMS.DataAccess;
+
 
 
 namespace EMS.Web.ems.Create
@@ -46,23 +46,6 @@ namespace EMS.Web.ems.Create
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            bool result = false;
-
-            Connection conn = Connection.Create("conn");
-
-            result = conn.AddCompany(txtCompanyName.Text, txtCompanyStreet.Text, txtPostalCode.Text, txtCity.Text,
-                                txtCountry.Text, txtPhone.Text, txtFax.Text, txtYear.Text);
-
-            if (result == true)
-            {
-                errLbl.ForeColor = System.Drawing.Color.Green;
-                errLbl.Text = "Company added.";
-
-            }
-            else
-            {
-                errLbl.Text = "Company not added";
-            }
 
 
 
