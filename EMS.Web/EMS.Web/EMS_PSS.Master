@@ -50,7 +50,7 @@
 </head>
 <body>
     <div style="padding-left: 225px;">
-        <!-- Top nav-bar -->
+        <!-- Top nav-bar. -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button class="navbar-toggle" data-toggle="collapse" data-target="myNavbar">
