@@ -99,19 +99,8 @@
                             <i class="fa fa-database"></i>Scheduling <span class="pull-right"><i class="fa fa-caret-down"></i></span>
                         </a>
                         <ul class="collapse" id="Scheduler">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i>Create <span class="pull-right"><i class="fa fa-caret-down"></i></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=fulltime") %>">Full Time </a></li>
-                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=parttime") %>">Part Time </a></li>
-                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=seasonal") %>">Seasonal </a></li>
-                                    <%if (Session["Clearance"].ToString() == "1")
-                                        { %>
-                                    <li><a href="<%= ResolveUrl("~/ems/Create/Employee.aspx?type=contract") %>">Contract </a></li>
-                                    <%} %>
-                                </ul>
-                            </li>
-                            <li><a href="<%= ResolveUrl("~/ems/search.aspx") %>"><i class="fa fa-search"></i>Search </a></li>
+
+                            <li><a href="<%= ResolveUrl("~/ems/search.aspx") %>"><i class="fa fa-search"></i>Create </a></li>
                             <% if (Session["Clearance"].ToString() == "1")
                                 { %>
                             <li><a href="<%=ResolveUrl("~/ems/View/Incomplete.aspx") %>"><i class="fa fa-times"></i>Incomplete <span class="pull-right"><span id="incomplete" runat="server" class="badge"><% %></span></span></a></li>
